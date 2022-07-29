@@ -38,6 +38,7 @@ const AnimatedCanvas: NextPage<any> = () => {
     // Create PixiJS app
     const app = new PIXI.Application({
         // render to <canvas class="orb-canvas"></canvas>
+        // @ts-ignore
         view: document.querySelector('.orbCanvas'),
         // auto adjust size to fit the current window
         resizeTo: window,
