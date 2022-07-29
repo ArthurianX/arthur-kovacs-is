@@ -39,9 +39,11 @@
     display: flex;
     align-content: center;
     justify-content: center;
+    height: 25vh;
 }
-.activitiesMain {
-    margin: 5rem 0;
+.activitiesMain a {
+    display: flex !important;
+    align-items: center !important;
 }
 
 .homeSplit {

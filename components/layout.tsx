@@ -4,12 +4,16 @@ import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 export const footerIconSize = 18;
 
 const Layout: NextPage<any> = ({ children, home }) => {
+    const AnimatedCanvas = dynamic(() => import('./canvas-bg'), {
+        ssr: false,
+    });
     return (
         <div className={styles.container}>
             <Head>
@@ -27,6 +31,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
+            <AnimatedCanvas />
             <header
                 className={`${styles.header} ${
                     !home ? styles.innerHeader : ''
@@ -71,7 +76,6 @@ const Layout: NextPage<any> = ({ children, home }) => {
             <main className={`${styles.main} ${!home ? styles.mainInner : ''}`}>
                 {children}
             </main>
-
             {!home && (
                 <div className={styles.backToHome}>
                     <Link href="/">
