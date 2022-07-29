@@ -32,21 +32,45 @@ const Home: NextPage<{
     // working: Article;
 }> = ({ cooking /*playing, reading, working*/ }) => {
     return (
-        <Layout home>
+        <Layout home className={utilStyles.homeSplit}>
             <Head>
                 <title>Arthur.Kovacs is ...</title>
             </Head>
-            <section className={utilStyles.headingMd}>
-                <p>
-                    Hello, I'm <strong>Arthur</strong>, I'm passionate about
-                    writing apps in Next.js
-                </p>
-                <p></p>
+            <section
+                className={`${utilStyles.headingMd} ${utilStyles.activitiesContainer}`}
+            >
+                <div
+                    className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
+                >
+                    <Link href={`/working`}>
+                        <a>Working</a>
+                    </Link>
+                </div>
+                <div
+                    className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
+                >
+                    <Link href={`/playing`}>
+                        <a>Playing</a>
+                    </Link>
+                </div>
+                <div
+                    className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
+                >
+                    <Link href={`/cooking`}>
+                        <a>Cooking</a>
+                    </Link>
+                </div>
+                <div
+                    className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
+                >
+                    <Link href={`/reading`}>
+                        <a>Reading</a>
+                    </Link>
+                </div>
             </section>
             <section
                 className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}
             >
-                <h2 className={utilStyles.headingLg}>Blog</h2>
                 <ul className={utilStyles.list}>
                     {/* Make a nice animated thingie here */}
                     <li className={utilStyles.listItem} key={cooking.id}>

@@ -3,11 +3,12 @@ import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import { NextPage } from 'next';
 
-const name = 'Arthur Kovacs';
+const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 
-export default function Layout({ children, home }) {
+const Layout: NextPage<any> = ({ children, home }) => {
     return (
         <div className={styles.container}>
             <Head>
@@ -31,12 +32,12 @@ export default function Layout({ children, home }) {
                         <Image
                             priority
                             src="/images/avatar.jpg"
-                            className={utilStyles.borderCircle}
+                            className={utilStyles.borderCircleMain}
                             height={144}
                             width={144}
                             alt={name}
                         />
-                        <h1 className={utilStyles.heading2Xl}>{name}</h1>
+                        <h1 className={utilStyles.headingXl}>{name}</h1>
                     </>
                 ) : (
                     <>
@@ -55,21 +56,27 @@ export default function Layout({ children, home }) {
                         <h2 className={utilStyles.headingLg}>
                             <Link href="/">
                                 <a className={utilStyles.colorInherit}>
-                                    {name}
+                                    I think that
                                 </a>
                             </Link>
                         </h2>
                     </>
                 )}
             </header>
-            <main>{children}</main>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
+            <main className={styles.main}>
+                {children}
+                {!home && (
+                    <div className={styles.backToHome}>
+                        <Link href="/">
+                            <a>← Back to home</a>
+                        </Link>
+                    </div>
+                )}
+            </main>
+
+            <footer className={styles.footer}> Made with love </footer>
         </div>
     );
-}
+};
+
+export default Layout;
