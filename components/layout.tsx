@@ -27,7 +27,11 @@ const Layout: NextPage<any> = ({ children, home }) => {
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
-            <header className={styles.header}>
+            <header
+                className={`${styles.header} ${
+                    !home ? styles.innerHeader : ''
+                }`}
+            >
                 {home ? (
                     <>
                         <Image
@@ -64,17 +68,17 @@ const Layout: NextPage<any> = ({ children, home }) => {
                     </>
                 )}
             </header>
-            <main className={styles.main}>
+            <main className={`${styles.main} ${!home ? styles.mainInner : ''}`}>
                 {children}
-                {!home && (
-                    <div className={styles.backToHome}>
-                        <Link href="/">
-                            <a>← Back to home</a>
-                        </Link>
-                    </div>
-                )}
             </main>
 
+            {!home && (
+                <div className={styles.backToHome}>
+                    <Link href="/">
+                        <a>← Back to home</a>
+                    </Link>
+                </div>
+            )}
             <footer className={styles.footer}>
                 <span>Made with</span>
                 <Image

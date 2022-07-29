@@ -4,19 +4,19 @@ import { Activity, Article } from '../../components/interfaces';
 import ActivityPage from '../../components/activity-page';
 
 export const getStaticProps: GetStaticProps = async () => {
-    const cookingPostsData = getSortedPostsData(Activity.Cooking);
+    const cookingPostsData = getSortedPostsData(Activity.Playing);
 
     return {
         props: {
-            cooking: cookingPostsData,
+            playing: cookingPostsData,
         },
     };
 };
 
-const Cooking: NextPage<{
-    cooking: Article[];
-}> = ({ cooking }) => {
-    return <ActivityPage articles={cooking} activityName={Activity.Cooking} />;
+const Playing: NextPage<{
+    playing: Article[];
+}> = ({ playing }) => {
+    return <ActivityPage articles={playing} activityName={Activity.Playing} />;
 };
 
-export default Cooking;
+export default Playing;

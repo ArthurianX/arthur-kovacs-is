@@ -8,7 +8,7 @@ import { Activity, Article } from '../../components/interfaces';
 import PostPage from '../../components/post-page';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const postData = await getPostData(params?.id, Activity.Cooking);
+    const postData = await getPostData(params?.id, Activity.Reading);
     return {
         props: {
             ...postData,
@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = getAllPostIds(Activity.Cooking);
+    const paths = getAllPostIds(Activity.Reading);
     return {
         paths,
         fallback: false,
