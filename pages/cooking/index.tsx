@@ -28,10 +28,7 @@ const Cooking: NextPage<{
                 <title>Arthur.Kovacs is Cooking</title>
             </Head>
             <section className={utilStyles.headingMd}>
-                <p>
-                    Hello, I'm <strong>Arthur</strong>, I'm passionate about
-                    cooking
-                </p>
+                <p>cooking</p>
                 <p></p>
             </section>
             <section
