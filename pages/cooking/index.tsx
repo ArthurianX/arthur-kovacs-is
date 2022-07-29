@@ -29,7 +29,7 @@ const Cooking: NextPage<{
             </Head>
             <section className={utilStyles.headingMd}>
                 <p>cooking</p>
-                <p></p>
+                <p>This is for all you peeps out there!</p>
             </section>
             <section
                 className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}
