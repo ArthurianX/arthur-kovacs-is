@@ -7,6 +7,7 @@ import { NextPage } from 'next';
 
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
+export const footerIconSize = 18;
 
 const Layout: NextPage<any> = ({ children, home }) => {
     return (
@@ -74,7 +75,29 @@ const Layout: NextPage<any> = ({ children, home }) => {
                 )}
             </main>
 
-            <footer className={styles.footer}> Made with love </footer>
+            <footer className={styles.footer}>
+                <span>Made with</span>
+                <Image
+                    src="/heart.svg"
+                    height={footerIconSize}
+                    width={footerIconSize}
+                    alt={'LOVE'}
+                />
+                <span>,</span>
+                <Image
+                    src="/nextjs.svg"
+                    height={footerIconSize}
+                    width={footerIconSize}
+                    alt={'NEXTJS'}
+                />
+                <span>and</span>
+                <Image
+                    src="/vercel.svg"
+                    height={footerIconSize}
+                    width={footerIconSize}
+                    alt={'VERCEL'}
+                />
+            </footer>
         </div>
     );
 };
