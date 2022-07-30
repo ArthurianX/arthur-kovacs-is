@@ -7,6 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <>
             <Component {...pageProps} />
             <AnimatedCanvas />
+            <div className={'animatedBackground'}></div>
             <canvas className={'orbCanvas'}></canvas>
         </>
     );

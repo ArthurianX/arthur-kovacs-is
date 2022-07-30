@@ -232,7 +232,7 @@ const AnimatedCanvas: NextPage<any> = () => {
 
     const [app, setApp] = useState<PIXI.Application>();
     const [colorPalette] = useState<ColorPalette>(new ColorPalette());
-    const [orbs] = useState<Orb[]>();
+    const [orbs, setOrbs] = useState<Orb[]>();
     const noise2D = createNoise2D();
 
     const startOrbsAnimation = (orbs: Orb[]) => {
@@ -284,6 +284,7 @@ const AnimatedCanvas: NextPage<any> = () => {
                 generatedOrbs.push(orb);
             }
 
+            setOrbs(generatedOrbs);
             startOrbsAnimation(generatedOrbs);
         }
     }, [app]);

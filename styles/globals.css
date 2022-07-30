@@ -47,7 +47,23 @@ html {
 
 body {
   color: var(--dark-color);
+}
+
+.animatedBackground {
   background: var(--bg-gradient);
+  animation: smooth 3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -10;
+}
+
+@-webkit-keyframes smooth {
+  0% { opacity: 0;}
+  100% { opacity: 1;}
 }
 
 .orbCanvas {
@@ -58,4 +74,5 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: -1;
+  animation: smooth 5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
