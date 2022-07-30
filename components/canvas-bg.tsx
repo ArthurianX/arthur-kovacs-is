@@ -1,25 +1,18 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from './layout.module.css';
-import utilStyles from '../styles/utils.module.css';
-import Link from 'next/link';
 import { NextPage } from 'next';
 import * as PIXI from 'pixi.js';
 import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
 import { createNoise2D } from 'simplex-noise';
 import hsl from 'hsl-to-hex';
 import debounce from 'debounce';
-import { createRef } from 'react';
-import dynamic from 'next/dynamic';
 import { Graphics } from 'pixi.js';
+import { useEffect, useState } from 'react';
 
-const name = 'Arthur Kovacs is';
-export const siteTitle = 'Arthur Kovacs is';
-export const footerIconSize = 18;
+// export interface AnimatedCanvasProps {
+//     randomizeColor: () => any;
+//     redrawOrbs: () => any;
+// }
 
 const AnimatedCanvas: NextPage<any> = () => {
-    const canvasRef = createRef<any>();
-
     // return a random number within a range
     function random(min: number, max: number) {
         return Math.random() * (max - min) + min;
@@ -35,20 +28,78 @@ const AnimatedCanvas: NextPage<any> = () => {
     ) {
         return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
     }
-    // Create PixiJS app
-    const app = new PIXI.Application({
-        // render to <canvas class="orb-canvas"></canvas>
-        // @ts-ignore
-        view: document.querySelector('.orbCanvas'),
-        // auto adjust size to fit the current window
-        resizeTo: window,
-        // transparent background, we will be creating a gradient background later using CSS
-        backgroundAlpha: 0,
-    });
 
-    app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+    class ColorPalette {
+        private hue: number | undefined;
+        private complimentaryHue1: number | undefined;
+        private complimentaryHue2: number | undefined;
+        private saturation: number | undefined;
+        private lightness: number | undefined;
+        private baseColor: string | undefined;
+        private complimentaryColor1: string | undefined;
+        private complimentaryColor2: string | undefined;
+        private colorChoices: string[] | undefined;
+        constructor() {
+            // this.setColors();
+            // this.setCustomProperties();
+        }
 
-    const noise2D = createNoise2D();
+        setColors() {
+            // pick a random hue somewhere between 220 and 360
+            this.hue = ~~random(220, 360);
+            this.complimentaryHue1 = this.hue + 30;
+            this.complimentaryHue2 = this.hue + 60;
+            // define a fixed saturation and lightness
+            this.saturation = 95;
+            this.lightness = 80;
+
+            // define a base color
+            this.baseColor = hsl(this.hue, this.saturation, this.lightness);
+            // define a complimentary color, 30 degress away from the base
+            this.complimentaryColor1 = hsl(
+                this.complimentaryHue1,
+                this.saturation,
+                this.lightness,
+            );
+            // define a second complimentary color, 60 degrees away from the base
+            this.complimentaryColor2 = hsl(
+                this.complimentaryHue2,
+                this.saturation,
+                this.lightness,
+            );
+
+            // store the color choices in an array so that a random one can be picked later
+            this.colorChoices = [
+                this.baseColor,
+                this.complimentaryColor1,
+                this.complimentaryColor2,
+            ];
+        }
+
+        randomColor() {
+            // pick a random color
+            return this.colorChoices![
+                ~~random(0, this.colorChoices!.length)
+            ].replace('#', '0x');
+        }
+
+        setCustomProperties() {
+            // set CSS custom properties so that the colors defined here can be used throughout the UI
+            // @ts-ignore
+            document.documentElement.style.setProperty('--hue', this.hue);
+            document.documentElement.style.setProperty(
+                '--hue-complimentary1',
+                // @ts-ignore
+                this.complimentaryHue1,
+            );
+            // @ts-ignore
+            document.documentElement.style.setProperty(
+                '--hue-complimentary2',
+                // @ts-ignore
+                this.complimentaryHue2,
+            );
+        }
+    }
 
     // Orb class
     class Orb {
@@ -179,106 +230,63 @@ const AnimatedCanvas: NextPage<any> = () => {
         }
     }
 
-    class ColorPalette {
-        private hue: number | undefined;
-        private complimentaryHue1: number | undefined;
-        private complimentaryHue2: number | undefined;
-        private saturation: number | undefined;
-        private lightness: number | undefined;
-        private baseColor: string | undefined;
-        private complimentaryColor1: string | undefined;
-        private complimentaryColor2: string | undefined;
-        private colorChoices: string[] | undefined;
-        constructor() {
-            this.setColors();
-            this.setCustomProperties();
-        }
+    const [app, setApp] = useState<PIXI.Application>();
+    const [colorPalette] = useState<ColorPalette>(new ColorPalette());
+    const [orbs] = useState<Orb[]>();
+    const noise2D = createNoise2D();
 
-        setColors() {
-            // pick a random hue somewhere between 220 and 360
-            this.hue = ~~random(220, 360);
-            this.complimentaryHue1 = this.hue + 30;
-            this.complimentaryHue2 = this.hue + 60;
-            // define a fixed saturation and lightness
-            this.saturation = 95;
-            this.lightness = 50;
-
-            // define a base color
-            this.baseColor = hsl(this.hue, this.saturation, this.lightness);
-            // define a complimentary color, 30 degress away from the base
-            this.complimentaryColor1 = hsl(
-                this.complimentaryHue1,
-                this.saturation,
-                this.lightness,
-            );
-            // define a second complimentary color, 60 degrees away from the base
-            this.complimentaryColor2 = hsl(
-                this.complimentaryHue2,
-                this.saturation,
-                this.lightness,
-            );
-
-            // store the color choices in an array so that a random one can be picked later
-            this.colorChoices = [
-                this.baseColor,
-                this.complimentaryColor1,
-                this.complimentaryColor2,
-            ];
-        }
-
-        randomColor() {
-            // pick a random color
-            return this.colorChoices![
-                ~~random(0, this.colorChoices!.length)
-            ].replace('#', '0x');
-        }
-
-        setCustomProperties() {
-            // set CSS custom properties so that the colors defined here can be used throughout the UI
-            // @ts-ignore
-            document.documentElement.style.setProperty('--hue', this.hue);
-            document.documentElement.style.setProperty(
-                '--hue-complimentary1',
-                // @ts-ignore
-                this.complimentaryHue1,
-            );
-            // @ts-ignore
-            document.documentElement.style.setProperty(
-                '--hue-complimentary2',
-                // @ts-ignore
-                this.complimentaryHue2,
-            );
-        }
-    }
-
-    const colorPalette = new ColorPalette();
-    // Create orbs
-    const orbs: Orb[] = [];
-
-    for (let i = 0; i < 10; i++) {
-        // each orb will be black, just for now
-        const orb = new Orb(colorPalette.randomColor());
-        app.stage.addChild(orb.graphics);
-
-        orbs.push(orb);
-    }
-
-    // Animate!
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        app.ticker.add(() => {
-            // update and render each orb, each frame. app.ticker attempts to run at 60fps
+    const startOrbsAnimation = (orbs: Orb[]) => {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            app!.ticker.add(() => {
+                // update and render each orb, each frame. app.ticker attempts to run at 60fps
+                orbs.forEach((orb) => {
+                    orb.update();
+                    orb.render();
+                });
+            });
+        } else {
+            // perform one update and render per orb, do not animate
             orbs.forEach((orb) => {
                 orb.update();
                 orb.render();
             });
-        });
-    } else {
-        // perform one update and render per orb, do not animate
-        orbs.forEach((orb) => {
-            orb.update();
-            orb.render();
-        });
-    }
+        }
+    };
+
+    useEffect(() => {
+        colorPalette.setColors();
+        colorPalette.setCustomProperties();
+
+        // Create PixiJS app
+        setApp(
+            new PIXI.Application({
+                // render to <canvas class="orb-canvas"></canvas>
+                // @ts-ignore
+                view: document.querySelector('.orbCanvas'),
+                // auto adjust size to fit the current window
+                resizeTo: window,
+                // transparent background, we will be creating a gradient background later using CSS
+                backgroundAlpha: 0,
+            }),
+        );
+    }, []);
+
+    useEffect(() => {
+        if (app) {
+            app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+            let generatedOrbs: Orb[] = [];
+            // Create orbs
+            for (let i = 0; i < 10; i++) {
+                // each orb will be black, just for now
+                const orb = new Orb(colorPalette.randomColor());
+                app.stage.addChild(orb.graphics);
+
+                generatedOrbs.push(orb);
+            }
+
+            startOrbsAnimation(generatedOrbs);
+        }
+    }, [app]);
 
     return <></>;
 };
