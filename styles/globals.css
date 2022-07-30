@@ -51,7 +51,7 @@ body {
 
 .animatedBackground {
   background: var(--bg-gradient);
-  animation: smooth 3s ease-in;
+  animation: smooth 6s ease-in;
   position: fixed;
   top: 0;
   left: 0;
@@ -63,6 +63,7 @@ body {
 
 @-webkit-keyframes smooth {
   0% { opacity: 0;}
+  80% { opacity: 0;}
   100% { opacity: 1;}
 }
 
@@ -74,5 +75,5 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  animation: smooth 5s ease-in;
+  animation: smooth 10s ease-in;
 }
