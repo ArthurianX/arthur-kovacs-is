@@ -79,3 +79,20 @@
 .lightText {
     color: #666;
 }
+
+.postsContainer {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+.postsContainer > div {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    height: 25vh;
+    padding: 0 1rem;
+}

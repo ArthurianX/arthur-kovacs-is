@@ -6,13 +6,16 @@ import hsl from 'hsl-to-hex';
 import debounce from 'debounce';
 import { Graphics } from 'pixi.js';
 import { useEffect, useState } from 'react';
+import { ColorPalette } from '../utils/generate-color-scheme';
 
 // export interface AnimatedCanvasProps {
 //     randomizeColor: () => any;
 //     redrawOrbs: () => any;
 // }
 
-const AnimatedCanvas: NextPage<any> = () => {
+const AnimatedCanvas: NextPage<{
+    colors: ColorPalette;
+}> = ({ colors }) => {
     // return a random number within a range
     function random(min: number, max: number) {
         return Math.random() * (max - min) + min;
@@ -39,14 +42,15 @@ const AnimatedCanvas: NextPage<any> = () => {
         private complimentaryColor1: string | undefined;
         private complimentaryColor2: string | undefined;
         private colorChoices: string[] | undefined;
+
         constructor() {
             // this.setColors();
             // this.setCustomProperties();
         }
 
-        setColors() {
+        setColors(existingColors: ColorPalette) {
             // pick a random hue somewhere between 220 and 360
-            this.hue = ~~random(220, 360);
+            this.hue = existingColors.hue || ~~random(220, 360);
             this.complimentaryHue1 = this.hue + 30;
             this.complimentaryHue2 = this.hue + 60;
             // define a fixed saturation and lightness
@@ -254,7 +258,8 @@ const AnimatedCanvas: NextPage<any> = () => {
     };
 
     useEffect(() => {
-        colorPalette.setColors();
+        // NOTE: Fix this
+        colorPalette.setColors(colors as any);
         colorPalette.setCustomProperties();
 
         // Create PixiJS app
@@ -269,7 +274,7 @@ const AnimatedCanvas: NextPage<any> = () => {
                 backgroundAlpha: 0,
             }),
         );
-    }, []);
+    }, [colors]);
 
     useEffect(() => {
         if (app) {

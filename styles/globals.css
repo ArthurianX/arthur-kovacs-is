@@ -77,3 +77,10 @@ body {
   z-index: -1;
   animation: smooth 10s ease-in;
 }
+
+.randomColorButton {
+  position: absolute;
+  left: 5px;
+  top: calc(50vh - 50px);
+  cursor: pointer;
+}

@@ -11,26 +11,27 @@ import { Activity, Article } from '../components/interfaces';
 
 export const getStaticProps: GetStaticProps = async () => {
     const cookingPostsData = getSortedPostsData(Activity.Cooking);
-    // const playingPostsData = getSortedPostsData(Activity.Playing);
-    // const readingPostsData = getSortedPostsData(Activity.Reading);
-    // const workingPostsData = getSortedPostsData(Activity.Working);
+    const playingPostsData = getSortedPostsData(Activity.Playing);
+    const readingPostsData = getSortedPostsData(Activity.Reading);
+    const workingPostsData = getSortedPostsData(Activity.Working);
 
+    debugger;
     return {
         props: {
+            working: workingPostsData.shift(),
+            playing: playingPostsData.shift(),
             cooking: cookingPostsData.shift(),
-            // playing: playingPostsData.shift(),
-            // reading: readingPostsData.shift(),
-            // working: workingPostsData.shift(),
+            reading: readingPostsData.shift(),
         },
     };
 };
 
 const Home: NextPage<{
+    working: Article;
+    playing: Article;
     cooking: Article;
-    // playing: Article;
-    // reading: Article;
-    // working: Article;
-}> = ({ cooking /*playing, reading, working*/ }) => {
+    reading: Article;
+}> = ({ cooking, playing, reading, working }) => {
     return (
         <Layout home className={utilStyles.homeSplit}>
             <Head>
@@ -69,20 +70,56 @@ const Home: NextPage<{
                 </div>
             </section>
             <section
-                className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}
+                className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${utilStyles.postsContainer}`}
             >
-                <ul className={utilStyles.list}>
-                    {/* Make a nice animated thingie here */}
-                    <li className={utilStyles.listItem} key={cooking.id}>
+                {working ? (
+                    <div className={utilStyles.listItem} key={working.id}>
+                        <Link href={`/working/${working.id}`}>
+                            <a>{working.title}</a>
+                        </Link>
+                        <small className={utilStyles.lightText}>
+                            <Date dateString={working.date!} /> - Working
+                        </small>
+                    </div>
+                ) : (
+                    <></>
+                )}
+                {playing ? (
+                    <div className={utilStyles.listItem} key={playing.id}>
+                        <Link href={`/playing/${playing.id}`}>
+                            <a>{playing.title}</a>
+                        </Link>
+                        <small className={utilStyles.lightText}>
+                            <Date dateString={playing.date!} /> - Playing
+                        </small>
+                    </div>
+                ) : (
+                    ''
+                )}
+                {cooking ? (
+                    <div className={utilStyles.listItem} key={cooking.id}>
                         <Link href={`/cooking/${cooking.id}`}>
                             <a>{cooking.title}</a>
                         </Link>
-                        <br />
                         <small className={utilStyles.lightText}>
-                            <Date dateString={cooking.date!} />
+                            <Date dateString={cooking.date!} /> - Cooking
                         </small>
-                    </li>
-                </ul>
+                    </div>
+                ) : (
+                    ''
+                )}
+                {reading ? (
+                    <div className={utilStyles.listItem} key={reading.id}>
+                        <Link href={`/reading/${reading.id}`}>
+                            <a>{reading.title}</a>
+                        </Link>
+                        <small className={utilStyles.lightText}>
+                            <Date dateString={reading.date!} /> - Reading
+                        </small>
+                    </div>
+                ) : (
+                    ''
+                )}
             </section>
         </Layout>
     );
