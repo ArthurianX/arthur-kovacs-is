@@ -4,6 +4,7 @@ import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { NextPage } from 'next';
+import ToggleLights from './toggle-light';
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 export const footerIconSize = 18;
@@ -113,6 +114,8 @@ const Layout: NextPage<any> = ({ children, home }) => {
                         alt={'GITHUB'}
                     />
                 </a>
+                <div className={styles.footerDivider}></div>
+                <ToggleLights />
             </footer>
         </div>
     );

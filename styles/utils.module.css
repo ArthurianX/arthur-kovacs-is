@@ -80,6 +80,13 @@
     color: #666;
 }
 
+.postsContainerLight {
+    background: rgba(255,255,255,0.3)
+}
+.postsContainerDark {
+    background: rgba(0,0,0,0.3);
+    color: rgba(255,255,255,0.60);
+}
 .postsContainer {
     display: flex;
     align-content: center;
@@ -87,6 +94,7 @@
     height: 100vh;
     flex-direction: column;
     position: relative;
+
 }
 .postsContainer > div {
     display: flex;

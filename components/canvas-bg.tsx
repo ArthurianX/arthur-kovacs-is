@@ -7,6 +7,7 @@ import debounce from 'debounce';
 import { Graphics } from 'pixi.js';
 import { useEffect, useState } from 'react';
 import { ColorPalette } from '../utils/generate-color-scheme';
+import { useColorMode } from '@chakra-ui/react';
 
 // export interface AnimatedCanvasProps {
 //     randomizeColor: () => any;
@@ -48,14 +49,27 @@ const AnimatedCanvas: NextPage<{
             // this.setCustomProperties();
         }
 
-        setColors(existingColors: ColorPalette) {
+        setColors(existingColors: ColorPalette, colorMode: 'light' | 'dark') {
             // pick a random hue somewhere between 220 and 360
-            this.hue = existingColors.hue || ~~random(220, 360);
+            // this.hue = existingColors.hue || ~~random(220, 360);
+            this.hue = ~~random(220, 360);
             this.complimentaryHue1 = this.hue + 30;
             this.complimentaryHue2 = this.hue + 60;
             // define a fixed saturation and lightness
-            this.saturation = 95;
-            this.lightness = 80;
+            switch (colorMode) {
+                case 'light':
+                    this.saturation = 95;
+                    this.lightness = 80;
+                    break;
+                case 'dark':
+                    this.saturation = 45;
+                    this.lightness = 25;
+                    break;
+                default:
+                    this.saturation = 95;
+                    this.lightness = 80;
+                    break;
+            }
 
             // define a base color
             this.baseColor = hsl(this.hue, this.saturation, this.lightness);
@@ -257,9 +271,12 @@ const AnimatedCanvas: NextPage<{
         }
     };
 
+    const { colorMode } = useColorMode();
+
     useEffect(() => {
+        console.log('Color Mode changed!', colorMode);
         // NOTE: Fix this
-        colorPalette.setColors(colors as any);
+        colorPalette.setColors(colors as any, colorMode);
         colorPalette.setCustomProperties();
 
         // Create PixiJS app
@@ -274,7 +291,7 @@ const AnimatedCanvas: NextPage<{
                 backgroundAlpha: 0,
             }),
         );
-    }, [colors]);
+    }, [colors, colorMode]);
 
     useEffect(() => {
         if (app) {

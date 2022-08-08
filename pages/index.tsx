@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Date from '../components/date';
 import Head from 'next/head';
 import { Activity, Article } from '../components/interfaces';
+import { useColorMode } from '@chakra-ui/react';
 
 export const getStaticProps: GetStaticProps = async () => {
     const cookingPostsData = getSortedPostsData(Activity.Cooking);
@@ -32,6 +33,7 @@ const Home: NextPage<{
     cooking: Article;
     reading: Article;
 }> = ({ cooking, playing, reading, working }) => {
+    const { colorMode } = useColorMode();
     return (
         <Layout home className={utilStyles.homeSplit}>
             <Head>
@@ -70,7 +72,13 @@ const Home: NextPage<{
                 </div>
             </section>
             <section
-                className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${utilStyles.postsContainer}`}
+                className={`${utilStyles.headingMd} ${utilStyles.padding1px} ${
+                    utilStyles.postsContainer
+                } ${
+                    colorMode === 'light'
+                        ? utilStyles.postsContainerLight
+                        : utilStyles.postsContainerDark
+                }`}
             >
                 {working ? (
                     <div className={utilStyles.listItem} key={working.id}>

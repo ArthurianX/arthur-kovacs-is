@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
 import AnimatedCanvas from '../components/canvas-bg';
 import { ChakraProvider } from '@chakra-ui/provider';
@@ -6,6 +6,7 @@ import { extendTheme } from '@chakra-ui/react';
 import ColorPaletteGenerator from '../utils/generate-color-scheme';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [colorPalette, setColorPalette] = useState(
@@ -28,19 +29,31 @@ function MyApp({ Component, pageProps }: AppProps) {
         );
         setTheme(
             extendTheme({
-                artheme: {
+                styles: {
+                    global: (props: StyleFunctionProps) => ({
+                        body: {
+                            // fontFamily: 'body',
+                            // color: mode('gray.800', 'whiteAlpha.900')(props),
+                            bg: mode('white', 'blackAlpha.700')(props),
+                            lineHeight: 'base',
+                        },
+                    }),
+                },
+                brand: {
                     900: colorPalette.baseColor,
                     800: colorPalette.complimentaryColor1,
                     700: colorPalette.complimentaryColor2,
                 },
             }),
         );
+        // TODO: ^ This might not be necessary.
     }, [colorPalette]);
 
     return (
         <ChakraProvider resetCSS theme={theme}>
             <Component {...pageProps} />
             <AnimatedCanvas colors={colorPalette} />
+            <div className={'animatedBackground'}></div>
             <div className={'animatedBackground'}></div>
             <canvas className={'orbCanvas'}></canvas>
             <div className={'randomColorButton'}>
