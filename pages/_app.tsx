@@ -14,14 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
     const [theme, setTheme] = useState<any>();
 
-    const breakpoints = {
-        sm: '320px',
-        md: '768px',
-        lg: '960px',
-        xl: '1200px',
-        '2xl': '1536px',
-    };
-
     useEffect(() => {
         console.log(
             '%c BaseColor ',
@@ -36,26 +28,23 @@ function MyApp({ Component, pageProps }: AppProps) {
             `background: ${colorPalette.complimentaryColor2}; color: #fff`,
         );
         setTheme(
-            extendTheme(
-                {
-                    styles: {
-                        global: (props: StyleFunctionProps) => ({
-                            body: {
-                                // fontFamily: 'body',
-                                // color: mode('gray.800', 'whiteAlpha.900')(props),
-                                bg: mode('white', 'blackAlpha.700')(props),
-                                lineHeight: 'base',
-                            },
-                        }),
-                    },
-                    brand: {
-                        900: colorPalette.baseColor,
-                        800: colorPalette.complimentaryColor1,
-                        700: colorPalette.complimentaryColor2,
-                    },
+            extendTheme({
+                styles: {
+                    global: (props: StyleFunctionProps) => ({
+                        body: {
+                            // fontFamily: 'body',
+                            // color: mode('gray.800', 'whiteAlpha.900')(props),
+                            bg: mode('white', 'blackAlpha.700')(props),
+                            lineHeight: 'base',
+                        },
+                    }),
                 },
-                breakpoints, // TODO: These might not be taken
-            ),
+                brand: {
+                    900: colorPalette.baseColor,
+                    800: colorPalette.complimentaryColor1,
+                    700: colorPalette.complimentaryColor2,
+                },
+            }),
         );
         // TODO: ^ This might not be necessary.
     }, [colorPalette]);

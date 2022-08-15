@@ -4,27 +4,33 @@ import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import ToggleLights from './toggle-light';
 import ArFooter from './footer';
-import { Box, useBreakpointValue, useMediaQuery } from '@chakra-ui/react';
+import { Box, useMediaQuery } from '@chakra-ui/react';
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 export const footerIconSize = 18;
 
 const Layout: NextPage<any> = ({ children, home }) => {
-    const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
-    return (
-        <div
-            className={`${styles.container} ${
-                isLargerThan1024 ? styles.containerRow : styles.containerCol
-            }`}
-        >
+    const FooterAndReturn = () => {
+        return (
+            <>
+                {!home && (
+                    <div className={styles.backToHome}>
+                        <Link href="/">
+                            <a>← Back to home</a>
+                        </Link>
+                    </div>
+                )}
+                <ArFooter />
+            </>
+        );
+    };
+
+    const NextHead = () => {
+        return (
             <Head>
                 <link rel="icon" href="/favicon.ico" />
-                <meta
-                    name="description"
-                    content="Learn how to build a personal website using Next.js"
-                />
+                <meta name="description" content="Arthur Kovacs's bio site." />
                 <meta
                     property="og:image"
                     content={`https://og-image.vercel.app/${encodeURI(
@@ -34,68 +40,69 @@ const Layout: NextPage<any> = ({ children, home }) => {
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
+        );
+    };
+
+    const AvatarWSize = ({ size }: any) => {
+        return (
+            <Image
+                priority
+                src="/images/avatar.jpg"
+                className={utilStyles.borderCircleMain}
+                height={size}
+                width={size}
+                alt={name}
+            />
+        );
+    };
+    return (
+        <div
+            className={'flex flex-row overflow-hidden'} //px-4
+            style={{ width: '100vw', height: '100vh' }}
+        >
+            <NextHead />
             <header
-                className={`${styles.header} ${
-                    !home ? styles.innerHeader : ''
+                className={`flex flex-col ${
+                    !home
+                        ? 'justify-start items-center pt-10'
+                        : 'justify-center items-center'
                 }`}
+                style={
+                    !home
+                        ? { maxWidth: '240px', flex: '240px' }
+                        : { maxWidth: '340px', flex: '340px' }
+                }
             >
                 {home ? (
                     <>
-                        <Image
-                            priority
-                            src="/images/avatar.jpg"
-                            className={utilStyles.borderCircleMain}
-                            height={144}
-                            width={144}
-                            alt={name}
-                        />
+                        <AvatarWSize size={144} />
                         <h1 className={utilStyles.headingXl}>{name}</h1>
                     </>
                 ) : (
                     <>
                         <Link href="/">
                             <a>
-                                <Image
-                                    priority
-                                    src="/images/avatar.jpg"
-                                    className={utilStyles.borderCircle}
-                                    height={108}
-                                    width={108}
-                                    alt={name}
-                                />
+                                <AvatarWSize size={108} />
                             </a>
                         </Link>
-                        <h2 className={utilStyles.headingLg}>
-                            <Link href="/">
-                                <a className={utilStyles.colorInherit}>
-                                    I think that
-                                </a>
-                            </Link>
-                        </h2>
+                        {/*<h2 className={utilStyles.headingLg}>*/}
+                        {/*    <Link href="/">*/}
+                        {/*        <a className={`${utilStyles.colorInherit}`}>*/}
+                        {/*            I think that*/}
+                        {/*        </a>*/}
+                        {/*    </Link>*/}
+                        {/*</h2>*/}
                     </>
                 )}
             </header>
-            {/* sm: '30em', md: '48em', lg: '62em', xl: '80em', '2xl': '96em',*/}
             <Box
-                width={[
-                    '100%', // 0-30em
-                    '100%', // 30em-48em
-                    '100%', // 48em-62em
-                    '100%', // 48em-62em
-                    '80%', // 62em+
-                ]}
-                className={`${styles.main} ${!home ? styles.mainInner : ''}`}
+                className={`h-screen flex flex-grow  ${
+                    !home ? 'items-start justify-start' : ''
+                }`}
             >
                 {children}
             </Box>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
-            <ArFooter />
+            <FooterAndReturn />
         </div>
     );
 };

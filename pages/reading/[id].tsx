@@ -1,8 +1,4 @@
-import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts';
-import Head from 'next/head';
-import Date from '../../components/date';
-import utilStyles from '../../styles/utils.module.css';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { Activity, Article } from '../../components/interfaces';
 import PostPage from '../../components/post-page';

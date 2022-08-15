@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Lora|Playfair+Display:700i,900');
 
 html,
@@ -93,7 +96,7 @@ html {
 
 .randomColorButton {
   position: absolute;
-  left: 5px;
-  top: calc(50vh - 50px);
+  top: 0px;
+  right: 7px;
   cursor: pointer;
 }
