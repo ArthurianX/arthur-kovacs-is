@@ -4,7 +4,22 @@
     height: 100vh;
     overflow: hidden;
     display: flex;
+}
+
+@media only screen and (max-width: 1024px) {
+    .container {
+        padding: 0 0rem;
+    }
+    .main {
+        padding-left: 0rem;
+    }
+}
+
+.containerRow {
     flex-direction: row;
+}
+.containerCol {
+    flex-direction: column;
 }
 
 .innerHeader {
@@ -23,7 +38,7 @@
     justify-content: flex-start !important;;
 }
 .main {
-    flex: 100%;
+    /*flex: 100%;*/
     height: 100vh;
     display: flex;
     flex-direction: row;

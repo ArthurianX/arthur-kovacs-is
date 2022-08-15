@@ -5,13 +5,20 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import ToggleLights from './toggle-light';
+import ArFooter from './footer';
+import { Box, useBreakpointValue, useMediaQuery } from '@chakra-ui/react';
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 export const footerIconSize = 18;
 
 const Layout: NextPage<any> = ({ children, home }) => {
+    const [isLargerThan1024] = useMediaQuery('(min-width: 1024px)');
     return (
-        <div className={styles.container}>
+        <div
+            className={`${styles.container} ${
+                isLargerThan1024 ? styles.containerRow : styles.containerCol
+            }`}
+        >
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta
@@ -68,9 +75,19 @@ const Layout: NextPage<any> = ({ children, home }) => {
                     </>
                 )}
             </header>
-            <main className={`${styles.main} ${!home ? styles.mainInner : ''}`}>
+            {/* sm: '30em', md: '48em', lg: '62em', xl: '80em', '2xl': '96em',*/}
+            <Box
+                width={[
+                    '100%', // 0-30em
+                    '100%', // 30em-48em
+                    '100%', // 48em-62em
+                    '100%', // 48em-62em
+                    '80%', // 62em+
+                ]}
+                className={`${styles.main} ${!home ? styles.mainInner : ''}`}
+            >
                 {children}
-            </main>
+            </Box>
             {!home && (
                 <div className={styles.backToHome}>
                     <Link href="/">
@@ -78,45 +95,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
                     </Link>
                 </div>
             )}
-            <footer className={styles.footer}>
-                <span>Made with</span>
-                <Image
-                    src="/heart.svg"
-                    height={footerIconSize}
-                    width={footerIconSize}
-                    alt={'LOVE'}
-                />
-                <span>,</span>
-                <Image
-                    src="/nextjs.svg"
-                    height={footerIconSize}
-                    width={footerIconSize}
-                    alt={'NEXTJS'}
-                />
-                <span>and</span>
-                <Image
-                    src="/vercel.svg"
-                    height={footerIconSize}
-                    width={footerIconSize}
-                    alt={'VERCEL'}
-                />
-                <div className={styles.footerDivider}></div>
-                <span>Source on</span>
-                <a
-                    rel={'noreferrer'}
-                    target={'_blank'}
-                    href="https://github.com/ArthurianX/arthur-kovacs-is"
-                >
-                    <Image
-                        src="/github.svg"
-                        height={footerIconSize}
-                        width={footerIconSize}
-                        alt={'GITHUB'}
-                    />
-                </a>
-                <div className={styles.footerDivider}></div>
-                <ToggleLights />
-            </footer>
+            <ArFooter />
         </div>
     );
 };
