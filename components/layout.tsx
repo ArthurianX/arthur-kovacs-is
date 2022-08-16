@@ -77,6 +77,9 @@ const Layout: NextPage<any> = ({ children, home }) => {
                     <>
                         <AvatarWSize size={144} />
                         <h1 className={utilStyles.headingXl}>{name}</h1>
+                        <h2 className={utilStyles.headingXl}>
+                            {'{ Under Construction }'}
+                        </h2>
                     </>
                 ) : (
                     <>
