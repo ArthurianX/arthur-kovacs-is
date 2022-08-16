@@ -1,9 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
 import { Activity, Article } from '../components/interfaces';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+import rehypeFormat from 'rehype-format';
+import remarkToc from 'remark-toc';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 const cookingDirectory = path.join(process.cwd(), 'posts/cooking');
@@ -131,8 +135,16 @@ export async function getPostData(
     const matterResult = matter(fileContents);
 
     // Use remark to convert markdown into HTML string
-    const processedContent = await remark()
-        .use(html)
+    // const processedContent = await remark()
+    //     .use(html)
+    //     .process(matterResult.content);
+    const processedContent = await unified()
+        .use(remarkParse)
+        .use(remarkToc)
+        .use(remarkRehype)
+        // .use(rehypeDocument, { title: 'Contents' })
+        .use(rehypeFormat)
+        .use(rehypeStringify)
         .process(matterResult.content);
     const contentHtml = processedContent.toString();
 

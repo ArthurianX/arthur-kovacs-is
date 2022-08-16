@@ -28,6 +28,9 @@ You will like those projects!
 ##### h5 Heading
 ###### h6 Heading
 
+``` stackblitz-1
+{"project":{"title":"Node Starter","description":"A basic Node.js project","template":"node","files":{"index.js":"console.log('Hello World!');","package.json":"{\n                              \"name\": \"my-project\",\n                              \"scripts\": { \"hello\": \"node index.js\", \"start\": \"serve node_modules\" },\n                              \"dependencies\": { \"serve\": \"^14.0.0\" },\n                              \"stackblitz\": { \"installDependencies\": true, \"startCommand\": \"npm start\" },\n                            }"}},"options":{"clickToLoad":true,"openFile":"index.js","terminalHeight":50}}
+```
 
 ## Horizontal Rules
 
@@ -127,6 +130,13 @@ var foo = function (bar) {
 
 console.log(foo(5));
 ```
+
+
+``` stackblitz-2
+{"project":{"title":"Node Starter","description":"A basic Node.js project","template":"node","files":{"index.js":"console.log('Hello World!');","package.json":"{\n                              \"name\": \"my-project\",\n                              \"scripts\": { \"hello\": \"node index.js\", \"start\": \"serve node_modules\" },\n                              \"dependencies\": { \"serve\": \"^14.0.0\" },\n                              \"stackblitz\": { \"installDependencies\": true, \"startCommand\": \"npm start\" },\n                            }"}},"options":{"clickToLoad":true,"openFile":"index.js","terminalHeight":50}}
+```
+
+// $0.textContent.replaceAll('\n', '').replaceAll('\'', '"').replaceAll('    ', '').trim()
 
 ## Tables
 
