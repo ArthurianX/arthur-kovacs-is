@@ -43,6 +43,7 @@
     "@types/thin-backend": "https://thin.dev/types/c471f4b1-fdf8-4843-9d02-260690a87b20/PsODGZmupcUjdHVIXwfqDibKBVoPrbmi",
     "@types/validator": "^13.7.6",
     "autoprefixer": "^10.4.7",
+    "dotenv": "^16.0.2",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
     "postcss": "^8.4.14",
