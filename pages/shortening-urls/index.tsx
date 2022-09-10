@@ -77,7 +77,7 @@ const ShorteningUrls: NextPage = () => {
 
         if (shortenedUrl!.shortenedUrl) {
             setShortenedURI(
-                `${window.location.origin}/url/${shortenedUrl.shortenedUrl}`,
+                `${window.location.origin}/saying/${shortenedUrl.shortenedUrl}`,
             );
         }
         setSaving(false);
