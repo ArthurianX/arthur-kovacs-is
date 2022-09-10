@@ -104,3 +104,31 @@
     height: 25vh;
     padding: 0 1rem;
 }
+
+.urlShortenerContainer {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.urlShortenerInput {
+    display: flex;
+    flex-direction: row;
+    width: 60vw;
+    height: 4rem;
+    backdrop-filter: blur(2cm);
+    background-color: rgba(255,255,255,0.3);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    border-radius: 2rem;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.urlShortenerInput input {
+    background-color: transparent;
+    outline: none;
+    border: 0 solid #ccc;
+    display: flex;
+    flex: 1;
+    padding: 1rem 2rem
+}
