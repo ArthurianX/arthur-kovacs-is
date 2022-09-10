@@ -7,6 +7,10 @@ import ColorPaletteGenerator from '../utils/generate-color-scheme';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
+import { initThinBackend } from 'thin-backend';
+import { ThinBackend } from 'thin-backend-react';
+
+initThinBackend({ host: process.env.NEXT_PUBLIC_BACKEND_URL });
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [colorPalette, setColorPalette] = useState(
@@ -50,22 +54,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, [colorPalette]);
 
     return (
-        <ChakraProvider resetCSS theme={theme}>
-            <Component {...pageProps} />
-            <AnimatedCanvas colors={colorPalette} />
-            <div className={'animatedBackground'}></div>
-            <div className={'animatedBackground'}></div>
-            <canvas className={'orbCanvas'}></canvas>
-            <div className={'randomColorButton'}>
-                <RepeatIcon
-                    onClick={() => {
-                        setColorPalette(
-                            new ColorPaletteGenerator().setColors(),
-                        );
-                    }}
-                />
-            </div>
-        </ChakraProvider>
+        <ThinBackend>
+            <ChakraProvider resetCSS theme={theme}>
+                <Component {...pageProps} />
+                <AnimatedCanvas colors={colorPalette} />
+                <div className={'animatedBackground'}></div>
+                <div className={'animatedBackground'}></div>
+                <canvas className={'orbCanvas'}></canvas>
+                <div className={'randomColorButton'}>
+                    <RepeatIcon
+                        onClick={() => {
+                            setColorPalette(
+                                new ColorPaletteGenerator().setColors(),
+                            );
+                        }}
+                    />
+                </div>
+            </ChakraProvider>
+        </ThinBackend>
     );
 }
 
