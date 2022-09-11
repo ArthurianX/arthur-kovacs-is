@@ -96,7 +96,6 @@ const stackBlitzRenderCode = (element: any) => {
         );
 
         if (element) {
-            //TODO: Replace this with ReactBlitz
             sdk.embedProject(
                 element,
                 // @ts-ignore
