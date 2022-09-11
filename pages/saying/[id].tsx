@@ -1,17 +1,10 @@
 import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
-import Date from '../../components/date';
-import utilStyles from '../../styles/utils.module.css';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { Activity, Article } from '../../components/interfaces';
-import PostPage from '../../components/post-page';
 import { getRealURl } from '../../lib/urls';
 import React, { useEffect, useState } from 'react';
 import { query } from 'thin-backend';
-import { useQuery } from 'thin-backend-react';
-import postStyles from '../../components/post-page.module.scss';
-import { ReactBlitz } from '@arthurianx/reactblitz';
 import { Skeleton } from '@chakra-ui/react';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
