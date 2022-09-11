@@ -1,6 +1,6 @@
 import sdk from '@stackblitz/sdk';
 
-const stackblitzInstantiator = (element) => {
+const stackblitzInstantiator = (element: any) => {
     const code = JSON.parse(element.textContent as any);
 
     try {

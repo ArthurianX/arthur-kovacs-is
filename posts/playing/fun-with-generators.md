@@ -29,8 +29,9 @@ You will like those projects!
 ###### h6 Heading
 
 ``` stackblitz-1
-{"project":{"title":"Node Starter","description":"A basic Node.js project","template":"node","files":{"index.js":"console.log('Hello World!');","package.json":"{\n                              \"name\": \"my-project\",\n                              \"scripts\": { \"hello\": \"node index.js\", \"start\": \"serve node_modules\" },\n                              \"dependencies\": { \"serve\": \"^14.0.0\" },\n                              \"stackblitz\": { \"installDependencies\": true, \"startCommand\": \"npm start\" },\n                            }"}},"options":{"clickToLoad":true,"openFile":"index.js","terminalHeight":50}}
+{"project":{"files":{"index.ts":"function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }"}},"options":{"openFile":"index.ts"}}
 ```
+
 
 ## Horizontal Rules
 
@@ -133,7 +134,7 @@ console.log(foo(5));
 
 
 ``` stackblitz-2
-{"project":{"title":"Node Starter","description":"A basic Node.js project","template":"node","files":{"index.js":"console.log('Hello World!');","package.json":"{\n                              \"name\": \"my-project\",\n                              \"scripts\": { \"hello\": \"node index.js\", \"start\": \"serve node_modules\" },\n                              \"dependencies\": { \"serve\": \"^14.0.0\" },\n                              \"stackblitz\": { \"installDependencies\": true, \"startCommand\": \"npm start\" },\n                            }"}},"options":{"clickToLoad":true,"openFile":"index.js","terminalHeight":50}}
+{"project":{"files":{"index.ts":"function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }"}},"options":{"clickToLoad":false,"openFile":"index.ts","terminalHeight":50}}
 ```
 
 // $0.textContent.replaceAll('\n', '').replaceAll('\'', '"').replaceAll('    ', '').trim()
