@@ -137,8 +137,6 @@ console.log(foo(5));
 {"project":{"files":{"index.ts":"function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }"}},"options":{"clickToLoad":false,"openFile":"index.ts","terminalHeight":50}}
 ```
 
-// $0.textContent.replaceAll('\n', '').replaceAll('\'', '"').replaceAll('    ', '').trim()
-
 ## Tables
 
 | Option | Description |
