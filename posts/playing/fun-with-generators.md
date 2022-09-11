@@ -28,6 +28,10 @@ You will like those projects!
 ##### h5 Heading
 ###### h6 Heading
 
+``` stackblitz-1
+{"project":{"files":{"index.ts":"function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }"}},"options":{"openFile":"index.ts"}}
+```
+
 
 ## Horizontal Rules
 
@@ -127,6 +131,13 @@ var foo = function (bar) {
 
 console.log(foo(5));
 ```
+
+
+``` stackblitz-2
+{"project":{"files":{"index.ts":"function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }"}},"options":{"clickToLoad":false,"openFile":"index.ts","terminalHeight":50}}
+```
+
+// $0.textContent.replaceAll('\n', '').replaceAll('\'', '"').replaceAll('    ', '').trim()
 
 ## Tables
 
