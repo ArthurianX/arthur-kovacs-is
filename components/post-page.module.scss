@@ -10,11 +10,16 @@
     text-align: left;
     margin-bottom: 0.5rem;
   }
+
+  code {
+    margin-bottom: 1rem;
+  }
 }
 
 .articleLight {
   .article {
-    background: rgba(255,255,255,0.85) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+
     h1,
     h2,
     p,
@@ -24,24 +29,33 @@
       color: rgba(0, 0, 0, 0.84);
       text-rendering: optimizeLegibility;
     }
+
     a {
       color: var(--complimentary1) !important;
     }
+
     mark, .highlighted {
       background: #7DFFB3;
     }
+
     .subtitle {
       color: rgba(0, 0, 0, 0.54);
     }
+
     blockquote {
       color: rgba(0, 0, 0, 0.68);
     }
-    ::selection{background-color: hsl(var(--hue-complimentary2), 95%, 50%)}
+
+    ::selection {
+      background-color: hsl(var(--hue-complimentary2), 95%, 50%)
+    }
   }
 }
+
 .articleDark {
   .article {
-    background: rgba(0,0,0,0.85) !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+
     h1,
     h2,
     p,
@@ -55,29 +69,34 @@
     h1,
     h2,
     a,
-    .first-letter,{
-      color: rgba(255,255,255,0.87);
+    .first-letter, {
+      color: rgba(255, 255, 255, 0.87);
     }
 
     p,
     i,
     ul, li,
     .authorName a {
-      color: rgba(255,255,255,0.60);
+      color: rgba(255, 255, 255, 0.60);
     }
+
     mark, .highlighted {
       background: #7DFFB3;
     }
+
     .subtitle {
       color: rgba(255, 255, 255, 0.54);
     }
+
     blockquote {
       color: rgba(255, 255, 255, 0.68);
     }
-    ::selection{background-color: hsl(var(--hue-complimentary2), 95%, 50%)}
+
+    ::selection {
+      background-color: hsl(var(--hue-complimentary2), 95%, 50%)
+    }
   }
 }
-
 
 
 .article {
@@ -127,15 +146,6 @@
     padding: 0 0 0 3.125rem;
   }
 
-  code {
-    font-size: 1.2rem;
-    background: rgba(0,0,0,.05);
-    border-radius: 2px;
-    padding: 3px 5px;
-  }
-
-
-
   .first-letter {
     overflow-wrap: break-word;
     font-family: "Playfair Display", serif;
@@ -153,5 +163,7 @@
     margin: 0 0 1.5rem 0;
   }
 
-  ::selection{background-color: hsl(var(--hue-complimentary2), 95%, 50%)}
+  ::selection {
+    background-color: hsl(var(--hue-complimentary2), 95%, 50%)
+  }
 }

@@ -2,25 +2,31 @@ import { NextPage } from 'next';
 import { Article } from './interfaces';
 import Layout from './layout';
 import Head from 'next/head';
-import utilStyles from '../styles/utils.module.css';
-import postStyles from './post-page.module.scss';
 import Date from './date';
 import { useColorMode } from '@chakra-ui/react';
 import sdk from '@stackblitz/sdk';
 import { useLayoutEffect } from 'react';
 import Script from 'next/script';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
+import utilStyles from '../styles/utils.module.css';
+import postStyles from './post-page.module.scss';
 
 const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
     const { colorMode } = useColorMode();
 
-    // TODO: Make it a very smart component
     useLayoutEffect(() => {
-        let blitzes: { element: HTMLElement; payload: object }[] = [];
+        // Render all the StackBlitzes
         document
             .querySelectorAll("code[class*='language-stackblitz']")
             .forEach((element) => {
                 stackBlitzRenderCode(element);
             });
+
+        // Render all the code blocks
+        document.querySelectorAll('pre code').forEach((el: any) => {
+            hljs.highlightElement(el);
+        });
     }, []);
 
     return (
@@ -59,23 +65,8 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
 export default PostPage;
 
 const stackBlitzRenderCode = (element: any) => {
-    // console.log(
-    //     JSON.stringify({
-    //         project: {
-    //             files: {
-    //                 'index.ts': `function* generator(limit) {for (let i = 0; i < limit; i++) { yield i } } for (let i of generator(10)) { console.log(i) }`,
-    //             },
-    //         },
-    //         options: {
-    //             clickToLoad: false,
-    //             openFile: 'index.ts',
-    //             terminalHeight: 50,
-    //         },
-    //     }),
-    // );
     try {
         const code = JSON.parse(element.textContent as any);
-        // console.log('code', code);
         const project = {
             title: 'Node Starter',
             description: 'A basic Node.js project',
@@ -105,6 +96,7 @@ const stackBlitzRenderCode = (element: any) => {
         );
 
         if (element) {
+            //TODO: Replace this with ReactBlitz
             sdk.embedProject(
                 element,
                 // @ts-ignore
