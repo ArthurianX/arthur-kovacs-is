@@ -34,14 +34,6 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
             <Head>
                 <title>{title}</title>
             </Head>
-            <Script
-                src="https://unpkg.com/prettier@2.7.1/standalone.js"
-                strategy="beforeInteractive"
-            />
-            <Script
-                src="https://unpkg.com/prettier@2.7.1/parser-typescript.js"
-                strategy="beforeInteractive"
-            />
             <article
                 className={`${postStyles.articleContainer} ${
                     colorMode === 'light'
