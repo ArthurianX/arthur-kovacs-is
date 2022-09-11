@@ -95,6 +95,8 @@ const stackBlitzRenderCode = (element: any) => {
             },
         );
 
+        // project.files['index.ts'] = code.project.files['index.ts'];
+
         if (element) {
             sdk.embedProject(
                 element,

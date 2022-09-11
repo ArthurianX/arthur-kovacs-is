@@ -12,7 +12,15 @@
   }
 
   code {
-    margin-bottom: 1rem;
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+  }
+
+  pre code {
+    border-radius: 0rem;
+    margin: 0.5rem 0 1rem 0;
   }
 }
 
