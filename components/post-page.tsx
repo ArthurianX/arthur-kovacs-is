@@ -78,16 +78,16 @@ const stackBlitzRenderCode = (element: any) => {
             },
         };
         // @ts-ignore
-        project.files['index.ts'] = prettier.format(
-            code.project.files['index.ts'],
-            {
-                parser: 'typescript',
-                // @ts-ignore
-                plugins: prettierPlugins,
-            },
-        );
+        // project.files['index.ts'] = prettier.format(
+        //     code.project.files['index.ts'],
+        //     {
+        //         parser: 'typescript',
+        //         // @ts-ignore
+        //         plugins: prettierPlugins,
+        //     },
+        // );
 
-        // project.files['index.ts'] = code.project.files['index.ts'];
+        project.files['index.ts'] = code.project.files['index.ts'];
 
         if (element) {
             sdk.embedProject(
