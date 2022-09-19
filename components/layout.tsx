@@ -57,8 +57,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
     };
     return (
         <div
-            className={'flex flex-row overflow-hidden'} //px-4
-            style={{ width: '100vw', height: '100vh' }}
+            className={'flex flex-col sm:flex-row items-center mt-6 sm:mt-0 overflow-hidden'} //px-4
         >
             <NextHead />
             <header
@@ -78,7 +77,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
                         <AvatarWSize size={144} />
                         <h1 className={utilStyles.headingXl}>{name}</h1>
                         <h2 className={utilStyles.headingLg}>
-                            {'{ Under Construction }'}
+                            {'{ Improving }'}
                         </h2>
                     </>
                 ) : (

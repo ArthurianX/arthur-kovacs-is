@@ -53,6 +53,12 @@
     flex-direction: row;
 }
 
+@media only screen and (max-width: 600px) {
+    .homeSplit {
+        flex-direction: column !important;
+    }    
+} 
+
 .borderCircle {
     border-radius: 9999px;
 }
