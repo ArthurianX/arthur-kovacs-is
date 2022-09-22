@@ -6,7 +6,6 @@ import Date from './date';
 import { useColorMode } from '@chakra-ui/react';
 import sdk from '@stackblitz/sdk';
 import { useLayoutEffect } from 'react';
-import Script from 'next/script';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 import utilStyles from '../styles/utils.module.css';
@@ -17,16 +16,21 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
 
     useLayoutEffect(() => {
         // Render all the StackBlitzes
-        document
-            .querySelectorAll("code[class*='language-stackblitz']")
-            .forEach((element) => {
-                stackBlitzRenderCode(element);
-            });
+        const stackBlitzObserver = new IntersectionObserver((entries) => {
+            if (entries[0].intersectionRatio <= 0) return;
+            stackBlitzRenderCode(entries[0].target);
+        });
+        
+        const sbEs = document.querySelectorAll("code[class*='language-stackblitz']");
+        sbEs.forEach((entry) => {
+            stackBlitzObserver.observe(entry);
+        })
 
         // Render all the code blocks
         document.querySelectorAll('pre code').forEach((el: any) => {
             hljs.highlightElement(el);
         });
+        // TODO: Unobserve on RETURN;
     }, []);
 
     return (
