@@ -20,6 +20,7 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
         document
             .querySelectorAll("code[class*='language-stackblitz']")
             .forEach((entry) => {
+                entry.setAttribute('style', 'display: none');
                 setBlitzes([...blitzes, entry]);
             });
 
@@ -91,8 +92,6 @@ const renderCode = (element: any) => {
         terminalHeight: 50,
         ...code.options,
     };
-
-    element.setAttribute('style', 'display: none');
 
     return (
         <ReactBlitzToElement
