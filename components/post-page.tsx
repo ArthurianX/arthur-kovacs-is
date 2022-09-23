@@ -80,6 +80,7 @@ const renderCode = (element: any) => {
         },
     };
 
+    //@ts-ignore
     project.files['index.ts'] = code.project.files['index.ts'];
     const options = {
         showSidebar: false,
@@ -95,6 +96,7 @@ const renderCode = (element: any) => {
     return (
         <ReactBlitzToElement
             element={element.parentElement}
+            //@ts-ignore
             project={project}
             options={options}
         />
