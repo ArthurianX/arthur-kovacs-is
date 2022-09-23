@@ -291,6 +291,8 @@ const AnimatedCanvas: NextPage<{
                 backgroundAlpha: 0,
             }),
         );
+
+        //@ts-ignore
     }, [colors, colorMode]);
 
     useEffect(() => {
@@ -309,6 +311,7 @@ const AnimatedCanvas: NextPage<{
             setOrbs(generatedOrbs);
             startOrbsAnimation(generatedOrbs);
         }
+        //@ts-ignore
     }, [app]);
 
     return <></>;
