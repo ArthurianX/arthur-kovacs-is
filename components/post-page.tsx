@@ -4,8 +4,7 @@ import Layout from './layout';
 import Head from 'next/head';
 import Date from './date';
 import { useColorMode } from '@chakra-ui/react';
-import sdk from '@stackblitz/sdk';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 import utilStyles from '../styles/utils.module.css';
@@ -16,6 +15,13 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
     const { colorMode } = useColorMode();
     const [blitzes, setBlitzes] = useState<any[]>([]);
 
+    useEffect(() => {
+        // Render all the code blocks
+        document.querySelectorAll('pre code').forEach((el: any) => {
+            hljs.highlightElement(el);
+        });
+    }, []);
+
     useLayoutEffect(() => {
         document
             .querySelectorAll("code[class*='language-stackblitz']")
@@ -23,11 +29,6 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
                 entry.setAttribute('style', 'display: none');
                 setBlitzes([...blitzes, entry]);
             });
-
-        // Render all the code blocks
-        document.querySelectorAll('pre code').forEach((el: any) => {
-            hljs.highlightElement(el);
-        });
     }, []);
 
     return (
