@@ -16,7 +16,6 @@ export const getStaticProps: GetStaticProps = async () => {
     const readingPostsData = getSortedPostsData(Activity.Reading);
     const workingPostsData = getSortedPostsData(Activity.Working);
 
-    debugger;
     return {
         props: {
             working: workingPostsData.shift(),

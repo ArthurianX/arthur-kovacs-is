@@ -28,7 +28,6 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
         document.querySelectorAll('pre code').forEach((el: any) => {
             hljs.highlightElement(el);
         });
-        // TODO: Unobserve on RETURN;
     }, []);
 
     return (
@@ -80,7 +79,6 @@ const renderCode = (element: any) => {
         },
     };
 
-    // TODO: This whole thing here is shaky
     project.files['index.ts'] = code.project.files['index.ts'];
     const options = {
         showSidebar: false,

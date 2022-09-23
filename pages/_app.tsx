@@ -19,18 +19,20 @@ function MyApp({ Component, pageProps }: AppProps) {
     const [theme, setTheme] = useState<any>();
 
     useEffect(() => {
-        console.log(
-            '%c BaseColor ',
-            `background: ${colorPalette.baseColor}; color: #fff`,
-        );
-        console.log(
-            '%c ComplimentaryColor1 ',
-            `background: ${colorPalette.complimentaryColor1}; color: #fff`,
-        );
-        console.log(
-            '%c ComplimentaryColor2 ',
-            `background: ${colorPalette.complimentaryColor2}; color: #fff`,
-        );
+        if (process.env.node_env === 'development') {
+            console.log(
+                '%c BaseColor ',
+                `background: ${colorPalette.baseColor}; color: #fff`,
+            );
+            console.log(
+                '%c ComplimentaryColor1 ',
+                `background: ${colorPalette.complimentaryColor1}; color: #fff`,
+            );
+            console.log(
+                '%c ComplimentaryColor2 ',
+                `background: ${colorPalette.complimentaryColor2}; color: #fff`,
+            );
+        }
         setTheme(
             extendTheme({
                 styles: {
