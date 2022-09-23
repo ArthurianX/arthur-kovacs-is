@@ -5,26 +5,23 @@ import Head from 'next/head';
 import Date from './date';
 import { useColorMode } from '@chakra-ui/react';
 import sdk from '@stackblitz/sdk';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 import utilStyles from '../styles/utils.module.css';
 import postStyles from './post-page.module.scss';
+import { ReactBlitzToElement } from '@arthurianx/reactblitz';
 
 const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
     const { colorMode } = useColorMode();
+    const [blitzes, setBlitzes] = useState<any[]>([]);
 
     useLayoutEffect(() => {
-        // Render all the StackBlitzes
-        const stackBlitzObserver = new IntersectionObserver((entries) => {
-            if (entries[0].intersectionRatio <= 0) return;
-            stackBlitzRenderCode(entries[0].target);
-        });
-        
-        const sbEs = document.querySelectorAll("code[class*='language-stackblitz']");
-        sbEs.forEach((entry) => {
-            stackBlitzObserver.observe(entry);
-        })
+        document
+            .querySelectorAll("code[class*='language-stackblitz']")
+            .forEach((entry) => {
+                setBlitzes([...blitzes, entry]);
+            });
 
         // Render all the code blocks
         document.querySelectorAll('pre code').forEach((el: any) => {
@@ -54,23 +51,23 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
                     dangerouslySetInnerHTML={{ __html: contentHtml! }}
                 />
             </article>
+            {blitzes.map(renderCode)}
         </Layout>
     );
 };
 
 export default PostPage;
 
-const stackBlitzRenderCode = (element: any) => {
-    try {
-        const code = JSON.parse(element.textContent as any);
-        const project = {
-            title: 'Node Starter',
-            description: 'A basic Node.js project',
-            template: 'typescript',
-            files: {
-                'index.html': '<div id="app"></div>',
-                'style.css': `h1, h2 {font-family: Lato;}`,
-                'package.json': `{
+const renderCode = (element: any) => {
+    const code = JSON.parse(element.textContent as any);
+    const project = {
+        title: 'Node Starter',
+        description: 'A basic Node.js project',
+        template: 'typescript',
+        files: {
+            'index.html': '<div id="app"></div>',
+            'style.css': `h1, h2 {font-family: Lato;}`,
+            'package.json': `{
                   "name": "typescript",
                   "version": "0.0.0",
                   "private": true,
@@ -79,40 +76,29 @@ const stackBlitzRenderCode = (element: any) => {
                     "prettier": "^1.15.3"
                   }
                 }`,
-            },
-        };
-        // @ts-ignore
-        // project.files['index.ts'] = prettier.format(
-        //     code.project.files['index.ts'],
-        //     {
-        //         parser: 'typescript',
-        //         // @ts-ignore
-        //         plugins: prettierPlugins,
-        //     },
-        // );
+        },
+    };
 
-        project.files['index.ts'] = code.project.files['index.ts'];
+    // TODO: This whole thing here is shaky
+    project.files['index.ts'] = code.project.files['index.ts'];
+    const options = {
+        showSidebar: false,
+        devToolsHeight: 100,
+        // hideNavigation: true,
+        // hideExplorer: true,
+        height: 360,
+        clickToLoad: false,
+        terminalHeight: 50,
+        ...code.options,
+    };
 
-        if (element) {
-            sdk.embedProject(
-                element,
-                // @ts-ignore
-                project,
-                {
-                    showSidebar: false,
-                    devToolsHeight: 100,
-                    // hideNavigation: true,
-                    // hideExplorer: true,
-                    height: 360,
-                    clickToLoad: false,
-                    terminalHeight: 50,
-                    ...code.options,
-                },
-            ).then((r) => {
-                console.log('r', r);
-            });
-        }
-    } catch (e) {
-        console.log('e', e);
-    }
+    element.setAttribute('style', 'display: none');
+
+    return (
+        <ReactBlitzToElement
+            element={element.parentElement}
+            project={project}
+            options={options}
+        />
+    );
 };
