@@ -1,6 +1,6 @@
 ---
 title: 'Progressive Enhacement'
-date: '2022-24-09'
+date: '2022-09-24'
 ---
 
 What is progressive enhacement anyway ?
