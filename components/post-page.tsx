@@ -18,7 +18,7 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
     useEffect(() => {
         // Render all the code blocks
         document.querySelectorAll('pre code').forEach((el: any) => {
-            //hljs.highlightElement(el);
+            hljs.highlightElement(el);
         });
     }, []);
 
