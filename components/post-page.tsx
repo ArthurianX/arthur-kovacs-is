@@ -10,6 +10,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import utilStyles from '../styles/utils.module.css';
 import postStyles from './post-page.module.scss';
 import { ReactBlitzToElement } from '@arthurianx/reactblitz';
+import { RBlitzOptions } from '@arthurianx/reactblitz/dist/cjs/util.types';
 
 const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
     const { colorMode } = useColorMode();
@@ -91,7 +92,10 @@ const renderCode = (element: any) => {
         clickToLoad: false,
         terminalHeight: 50,
         ...code.options,
-    };
+        //accentColor: 'var(--complimentary1)',
+        //loadingColor: 'var(--complimentary2)',
+        //accentBorder: true,
+    } as RBlitzOptions;
 
     return (
         <ReactBlitzToElement
