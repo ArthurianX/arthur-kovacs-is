@@ -3,6 +3,7 @@ import Layout from '../../components/layout';
 import utilStyles from '../../styles/utils.module.css';
 import {
     CheckIcon,
+    CopyIcon,
     ExternalLinkIcon,
     LinkIcon,
     WarningTwoIcon,
@@ -20,6 +21,7 @@ const ShorteningUrls: NextPage = () => {
     const [error, setError] = useState(false);
     const [saving, setSaving] = useState(false);
     const [realURI, setRealURI] = useState('');
+    const [copyString, setCopyString] = useState<string>('Or copy the link');
     const [shortenedURI, setShortenedURI] = useState('');
     const inputRef = useRef<any>();
 
@@ -36,17 +38,6 @@ const ShorteningUrls: NextPage = () => {
     const shortenedUrlCall = (
         url: string,
     ): Promise<{ shortenedUrl: string }> => {
-        // fetch('/api/shorten-url', {
-        //     method: 'POST',
-        //     cache: 'force-cache',
-        //     credentials: 'same-origin',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     redirect: 'follow', // manual, *follow, error
-        //     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        //     body: JSON.stringify(url), // body data type must match "Content-
-        // }).then((response) => response.json());
         return new Promise((resolve) => {
             query('urls')
                 .where({ realuri: url })
@@ -55,7 +46,7 @@ const ShorteningUrls: NextPage = () => {
                     if (result) {
                         resolve({ shortenedUrl: result.shorturi });
                     } else {
-                        const shortURL = nanoid(10);
+                        const shortURL = nanoid(5);
                         createRecord('urls', {
                             shorturi: shortURL,
                             realuri: url,
@@ -123,17 +114,37 @@ const ShorteningUrls: NextPage = () => {
                     {shortenedURI && <CheckIcon w={8} h={8} color="teal" />}
                 </div>
                 {shortenedURI && (
-                    <Button
-                        style={{ paddingTop: '1rem' }}
-                        rightIcon={<LinkIcon />}
-                        colorScheme="teal"
-                        variant="link"
-                        size="lg"
-                    >
-                        <Link href={shortenedURI}>
-                            <a>Try the shortened url: {shortenedURI}</a>
-                        </Link>
-                    </Button>
+                    <>
+                        <Button
+                            style={{ paddingTop: '1rem' }}
+                            rightIcon={<LinkIcon />}
+                            colorScheme="teal"
+                            variant="link"
+                            size="lg"
+                        >
+                            <Link href={shortenedURI}>
+                                <a>Try the shortened url: {shortenedURI}</a>
+                            </Link>
+                        </Button>
+                        <Button
+                            style={{
+                                marginTop: '1rem',
+                                width: '270px',
+                            }}
+                            rightIcon={<CopyIcon />}
+                            colorScheme="teal"
+                            variant="outline"
+                            size="lg"
+                            onClick={() => {
+                                try {
+                                    navigator.clipboard.writeText(shortenedURI);
+                                    setCopyString('Link COPIED to clipboard!');
+                                } catch (e) {}
+                            }}
+                        >
+                            {copyString}
+                        </Button>
+                    </>
                 )}
                 {!shortenedURI && (
                     <Button
