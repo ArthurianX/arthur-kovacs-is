@@ -9,5 +9,5 @@ http = "0.1"
 vercel_lambda = "*"
 
 [lib]
-name = "util"
-path = "_util.rs"
+name = "user"
+path = "user.rs"
