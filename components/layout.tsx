@@ -57,7 +57,9 @@ const Layout: NextPage<any> = ({ children, home }) => {
     };
     return (
         <div
-            className={'flex flex-col sm:flex-row items-center mt-6 sm:mt-0 overflow-hidden'} //px-4
+            className={
+                'flex flex-col sm:flex-row items-center mt-6 sm:mt-0 overflow-hidden'
+            } //px-4
         >
             <NextHead />
             <header

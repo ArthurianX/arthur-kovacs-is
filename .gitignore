@@ -36,3 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 .env
+
+# Rust or Vercle target folder for the current build.
+api/target
