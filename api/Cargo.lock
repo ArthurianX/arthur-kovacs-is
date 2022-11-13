@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "arthu-kovacs-rust-api"
+name = "arthur-kovacs-rust-api"
 version = "1.0.0"
 dependencies = [
  "http",

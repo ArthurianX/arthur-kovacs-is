@@ -1,7 +1,7 @@
 [package]
-name = "arthu-kovacs-rust-api"
+name = "arthur-kovacs-rust-api"
 version = "1.0.0"
-authors = ["Your Name <your@site.com>"]
+authors = ["Arthur Kovacs <hello@arthur.kovacs.is>"]
 edition = "2018"
 
 [dependencies]

@@ -33,6 +33,9 @@ const Home: NextPage<{
     reading: Article;
 }> = ({ cooking, playing, reading, working }) => {
     const { colorMode } = useColorMode();
+
+
+
     return (
         <Layout home className={utilStyles.homeSplit}>
             <Head>
