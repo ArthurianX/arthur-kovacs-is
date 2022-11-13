@@ -1,4 +1,4 @@
-use http::{StatusCode};
+use http::StatusCode;
 use vercel_lambda::{lambda, error::VercelError, IntoResponse, Request, Response};
 use std::error::Error;
 

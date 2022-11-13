@@ -2,11 +2,11 @@
 name = "arthur-kovacs-rust-api"
 version = "1.0.0"
 authors = ["Arthur Kovacs <hello@arthur.kovacs.is>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-http = "0.1"
-vercel_lambda = "*"
+http = "0.2.8"
+vercel_lambda = {git = "https://github.com/ArthurianX/vercel-rust", branch = "main"}
 
 [lib]
 name = "user"
