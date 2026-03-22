@@ -1,42 +1,45 @@
 import Layout from '../../components/layout';
-import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { getRealURl } from '../../lib/urls';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { query } from 'thin-backend';
 import { Skeleton } from '@chakra-ui/react';
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const url = await getRealURl(params?.id);
-
-    return {
-        props: {
-            url,
-        },
-    };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [],
-        fallback: true,
-    };
-};
-
 const RedirectToUrl: NextPage = () => {
+    const router = useRouter();
     const [uri, setURI] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     useEffect(() => {
-        const shortURL = window.location.pathname.split('/')[2] || '';
+        if (!router.isReady) {
+            return;
+        }
+
+        const shortURL = router.query.id;
+        if (typeof shortURL !== 'string' || !shortURL.length) {
+            setErrorMessage('This short link is missing its id.');
+            return;
+        }
 
         query('urls')
             .where({ shorturi: shortURL })
             .fetchOne()
             .then((result) => {
+                if (!result?.realuri) {
+                    setErrorMessage('This short link does not exist anymore.');
+                    return;
+                }
+
                 setURI(result.realuri);
                 window.location.replace(result.realuri);
+            })
+            .catch(() => {
+                setErrorMessage(
+                    'The short link lookup failed. Please try again in a moment.',
+                );
             });
-    }, []);
+    }, [router.isReady, router.query.id]);
 
     return (
         <Layout home={false}>
@@ -53,9 +56,16 @@ const RedirectToUrl: NextPage = () => {
                     width: '100%',
                 }}
             >
-                <span style={{ paddingRight: '0.5rem' }}>Redirecting to </span>
-                {!uri && <Skeleton height="20px" width="60vw" />}{' '}
-                <strong>{uri}</strong>
+                {!errorMessage && (
+                    <>
+                        <span style={{ paddingRight: '0.5rem' }}>
+                            Redirecting to
+                        </span>
+                        {!uri && <Skeleton height="20px" width="60vw" />}{' '}
+                        <strong>{uri}</strong>
+                    </>
+                )}
+                {errorMessage && <strong>{errorMessage}</strong>}
             </div>
         </Layout>
     );

@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Arthur.Kovacs.is
 
-## Getting Started
+This repo is a personal site built with Next.js. The core idea appears to be:
 
-First, run the development server:
+- activity pages for what Arthur is `Working`, `Playing`, `Cooking`, and `Reading`
+- markdown-backed posts for each activity
+- a small URL shortener that creates links like `/saying/:id`
+- an experimental Rust backend deployed as a Vercel function
+
+The git history suggests the project evolved in this order:
+
+1. Build the personal site and post system.
+2. Add a Thin Backend-powered URL shortener.
+3. Add a Vercel Rust runtime and a minimal lambda as a backend experiment.
+
+The Rust part was not yet connected to the shortener logic. It was left as a separate backend entrypoint.
+
+## Project Layout
+
+- `pages/` contains the Next.js routes.
+- `posts/` holds markdown content for each activity.
+- `pages/shortening-urls/index.tsx` is the shortener UI.
+- `pages/saying/[id].tsx` resolves short links through Thin Backend.
+- `api/user.rs` is the Rust Vercel function.
+
+## Local Development
+
+Install JavaScript dependencies and run the site:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you want the URL shortener to work, set:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXT_PUBLIC_BACKEND_URL=...
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+That value is used by `thin-backend` in `pages/_app.tsx`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Run the Rust function checks from `api/`:
 
-## Learn More
+```bash
+cargo test
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- The current shortener still depends on Thin Backend for persistence and lookup.
+- The Rust lambda is now useful as a health/info endpoint, but it is not yet the source of truth for short URLs.
+- If you want to finish the migration, the next natural step would be moving short-link create/lookup logic behind Rust endpoints and retiring the direct frontend Thin Backend calls.

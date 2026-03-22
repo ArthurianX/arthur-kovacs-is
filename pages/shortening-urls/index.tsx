@@ -1,17 +1,16 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Layout from '../../components/layout';
 import utilStyles from '../../styles/utils.module.css';
 import {
     CheckIcon,
     CopyIcon,
-    ExternalLinkIcon,
     LinkIcon,
     WarningTwoIcon,
 } from '@chakra-ui/icons';
 
 import Link from 'next/link';
 import Head from 'next/head';
-import { Button, Divider, useColorMode } from '@chakra-ui/react';
+import { Button, useColorMode } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { query, createRecord } from 'thin-backend';
@@ -28,9 +27,11 @@ const ShorteningUrls: NextPage = () => {
     const isValidUrl = (urlString: string) => {
         try {
             if (Boolean(new URL(urlString))) {
+                setError(false);
                 setRealURI(urlString);
             }
         } catch (e) {
+            setRealURI('');
             return false;
         }
     };
@@ -56,8 +57,13 @@ const ShorteningUrls: NextPage = () => {
                             })
                             .catch(() => {
                                 setError(true);
+                                setSaving(false);
                             });
                     }
+                })
+                .catch(() => {
+                    setError(true);
+                    setSaving(false);
                 });
         });
     };
@@ -86,6 +92,8 @@ const ShorteningUrls: NextPage = () => {
                         type="text"
                         placeholder={'Paste URL to shorten'}
                         onChange={(e) => {
+                            setShortenedURI('');
+                            setCopyString('Or copy the link');
                             setTimeout(() => {
                                 isValidUrl(inputRef.current.value);
                             }, 10);
