@@ -10,15 +10,12 @@ const RedirectToUrl: NextPage = () => {
     const router = useRouter();
     const [uri, setURI] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const shortURL =
+        typeof router.query.id === 'string' ? router.query.id : '';
+    const isMissingId = router.isReady && !shortURL.length;
 
     useEffect(() => {
-        if (!router.isReady) {
-            return;
-        }
-
-        const shortURL = router.query.id;
-        if (typeof shortURL !== 'string' || !shortURL.length) {
-            setErrorMessage('This short link is missing its id.');
+        if (!router.isReady || !shortURL.length) {
             return;
         }
 
@@ -39,7 +36,7 @@ const RedirectToUrl: NextPage = () => {
                     'The short link lookup failed. Please try again in a moment.',
                 );
             });
-    }, [router.isReady, router.query.id]);
+    }, [router.isReady, shortURL]);
 
     return (
         <Layout home={false}>
@@ -56,7 +53,7 @@ const RedirectToUrl: NextPage = () => {
                     width: '100%',
                 }}
             >
-                {!errorMessage && (
+                {!errorMessage && !isMissingId && (
                     <>
                         <span style={{ paddingRight: '0.5rem' }}>
                             Redirecting to
@@ -65,6 +62,7 @@ const RedirectToUrl: NextPage = () => {
                         <strong>{uri}</strong>
                     </>
                 )}
+                {isMissingId && <strong>This short link is missing its id.</strong>}
                 {errorMessage && <strong>{errorMessage}</strong>}
             </div>
         </Layout>

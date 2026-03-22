@@ -16,13 +16,13 @@ import { nanoid } from 'nanoid';
 import { query, createRecord } from 'thin-backend';
 
 const ShorteningUrls: NextPage = () => {
-    const { colorMode } = useColorMode();
+    useColorMode();
     const [error, setError] = useState(false);
     const [saving, setSaving] = useState(false);
     const [realURI, setRealURI] = useState('');
     const [copyString, setCopyString] = useState<string>('Or copy the link');
     const [shortenedURI, setShortenedURI] = useState('');
-    const inputRef = useRef<any>();
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const isValidUrl = (urlString: string) => {
         try {
@@ -95,7 +95,7 @@ const ShorteningUrls: NextPage = () => {
                             setShortenedURI('');
                             setCopyString('Or copy the link');
                             setTimeout(() => {
-                                isValidUrl(inputRef.current.value);
+                                isValidUrl(inputRef.current?.value || '');
                             }, 10);
                         }}
                     />
@@ -125,14 +125,14 @@ const ShorteningUrls: NextPage = () => {
                     <>
                         <Button
                             style={{ paddingTop: '1rem' }}
+                            as="a"
+                            href={shortenedURI}
                             rightIcon={<LinkIcon />}
                             colorScheme="teal"
                             variant="link"
                             size="lg"
                         >
-                            <Link href={shortenedURI}>
-                                <a>Try the shortened url: {shortenedURI}</a>
-                            </Link>
+                            Try the shortened url: {shortenedURI}
                         </Button>
                         <Button
                             style={{

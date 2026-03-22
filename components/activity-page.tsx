@@ -26,7 +26,7 @@ const ActivityPage: NextPage<{
                             <Link
                                 href={`/${props.activityName.toLowerCase()}/${id}`}
                             >
-                                <a>{title}</a>
+                                {title}
                             </Link>
                             <br />
                             <small className={utilStyles.lightText}>

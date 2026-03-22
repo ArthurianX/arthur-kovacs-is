@@ -5,56 +5,55 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import ArFooter from './footer';
-import { Box, useMediaQuery } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 const name = 'Arthur Kovacs is';
 export const siteTitle = 'Arthur Kovacs is';
 export const footerIconSize = 18;
 
-const Layout: NextPage<any> = ({ children, home }) => {
-    const FooterAndReturn = () => {
-        return (
-            <>
-                {!home && (
-                    <div className={styles.backToHome}>
-                        <Link href="/">
-                            <a>← Back to home</a>
-                        </Link>
-                    </div>
-                )}
-                <ArFooter />
-            </>
-        );
-    };
+const FooterAndReturn = ({ home }: { home?: boolean }) => {
+    return (
+        <>
+            {!home && (
+                <div className={styles.backToHome}>
+                    <Link href="/">← Back to home</Link>
+                </div>
+            )}
+            <ArFooter />
+        </>
+    );
+};
 
-    const NextHead = () => {
-        return (
-            <Head>
-                <link rel="icon" href="/favicon.ico" />
-                <meta name="description" content="Arthur Kovacs's bio site." />
-                <meta
-                    property="og:image"
-                    content={`https://og-image.vercel.app/${encodeURI(
-                        siteTitle,
-                    )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-                />
-                <meta name="og:title" content={siteTitle} />
-                <meta name="twitter:card" content="summary_large_image" />
-            </Head>
-        );
-    };
-
-    const AvatarWSize = ({ size }: any) => {
-        return (
-            <Image
-                priority
-                src="/images/avatar.jpg"
-                className={utilStyles.borderCircleMain}
-                height={size}
-                width={size}
-                alt={name}
+const NextHead = () => {
+    return (
+        <Head>
+            <link rel="icon" href="/favicon.ico" />
+            <meta name="description" content="Arthur Kovacs's bio site." />
+            <meta
+                property="og:image"
+                content={`https://og-image.vercel.app/${encodeURI(
+                    siteTitle,
+                )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
             />
-        );
-    };
+            <meta name="og:title" content={siteTitle} />
+            <meta name="twitter:card" content="summary_large_image" />
+        </Head>
+    );
+};
+
+const AvatarWithSize = ({ size }: { size: number }) => {
+    return (
+        <Image
+            priority
+            src="/images/avatar.jpg"
+            className={utilStyles.borderCircleMain}
+            height={size}
+            width={size}
+            alt={name}
+        />
+    );
+};
+
+const Layout: NextPage<any> = ({ children, home }) => {
     return (
         <div
             className={
@@ -76,7 +75,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
             >
                 {home ? (
                     <>
-                        <AvatarWSize size={144} />
+                        <AvatarWithSize size={144} />
                         <h1 className={utilStyles.headingXl}>{name}</h1>
                         <h2 className={utilStyles.headingLg}>
                             {'{ Improving }'}
@@ -85,15 +84,13 @@ const Layout: NextPage<any> = ({ children, home }) => {
                 ) : (
                     <>
                         <Link href="/">
-                            <a>
-                                <AvatarWSize size={108} />
-                            </a>
+                            <AvatarWithSize size={108} />
                         </Link>
                         {/*<h2 className={utilStyles.headingLg}>*/}
                         {/*    <Link href="/">*/}
-                        {/*        <a className={`${utilStyles.colorInherit}`}>*/}
+                        {/*        <span className={`${utilStyles.colorInherit}`}>*/}
                         {/*            I think that*/}
-                        {/*        </a>*/}
+                        {/*        </span>*/}
                         {/*    </Link>*/}
                         {/*</h2>*/}
                     </>
@@ -106,7 +103,7 @@ const Layout: NextPage<any> = ({ children, home }) => {
             >
                 {children}
             </Box>
-            <FooterAndReturn />
+            <FooterAndReturn home={home} />
         </div>
     );
 };

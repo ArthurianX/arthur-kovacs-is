@@ -47,30 +47,22 @@ const Home: NextPage<{
                 <div
                     className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
                 >
-                    <Link href={`/working`}>
-                        <a>Working</a>
-                    </Link>
+                    <Link href={`/working`}>Working</Link>
                 </div>
                 <div
                     className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
                 >
-                    <Link href={`/playing`}>
-                        <a>Playing</a>
-                    </Link>
+                    <Link href={`/playing`}>Playing</Link>
                 </div>
                 <div
                     className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
                 >
-                    <Link href={`/cooking`}>
-                        <a>Cooking</a>
-                    </Link>
+                    <Link href={`/cooking`}>Cooking</Link>
                 </div>
                 <div
                     className={`${utilStyles.listItem} ${utilStyles.heading2Xl} ${utilStyles.activitiesMain}`}
                 >
-                    <Link href={`/reading`}>
-                        <a>Reading</a>
-                    </Link>
+                    <Link href={`/reading`}>Reading</Link>
                 </div>
             </section>
             <section
@@ -84,9 +76,7 @@ const Home: NextPage<{
             >
                 {working ? (
                     <div className={utilStyles.listItem} key={working.id}>
-                        <Link href={`/working/${working.id}`}>
-                            <a>{working.title}</a>
-                        </Link>
+                        <Link href={`/working/${working.id}`}>{working.title}</Link>
                         <small className={utilStyles.lightText}>
                             <Date dateString={working.date!} /> - Working
                         </small>
@@ -96,9 +86,7 @@ const Home: NextPage<{
                 )}
                 {playing ? (
                     <div className={utilStyles.listItem} key={playing.id}>
-                        <Link href={`/playing/${playing.id}`}>
-                            <a>{playing.title}</a>
-                        </Link>
+                        <Link href={`/playing/${playing.id}`}>{playing.title}</Link>
                         <small className={utilStyles.lightText}>
                             <Date dateString={playing.date!} /> - Playing
                         </small>
@@ -108,9 +96,7 @@ const Home: NextPage<{
                 )}
                 {cooking ? (
                     <div className={utilStyles.listItem} key={cooking.id}>
-                        <Link href={`/cooking/${cooking.id}`}>
-                            <a>{cooking.title}</a>
-                        </Link>
+                        <Link href={`/cooking/${cooking.id}`}>{cooking.title}</Link>
                         <small className={utilStyles.lightText}>
                             <Date dateString={cooking.date!} /> - Cooking
                         </small>
@@ -120,9 +106,7 @@ const Home: NextPage<{
                 )}
                 {reading ? (
                     <div className={utilStyles.listItem} key={reading.id}>
-                        <Link href={`/reading/${reading.id}`}>
-                            <a>{reading.title}</a>
-                        </Link>
+                        <Link href={`/reading/${reading.id}`}>{reading.title}</Link>
                         <small className={utilStyles.lightText}>
                             <Date dateString={reading.date!} /> - Reading
                         </small>

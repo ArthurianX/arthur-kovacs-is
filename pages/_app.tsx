@@ -5,21 +5,43 @@ import { ChakraProvider } from '@chakra-ui/provider';
 import { extendTheme } from '@chakra-ui/react';
 import ColorPaletteGenerator from '../utils/generate-color-scheme';
 import { RepeatIcon } from '@chakra-ui/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 import { initThinBackend } from 'thin-backend';
 import { ThinBackend } from 'thin-backend-react';
 
-initThinBackend({ host: process.env.NEXT_PUBLIC_BACKEND_URL });
+const thinBackendHost = process.env.NEXT_PUBLIC_BACKEND_URL;
+if (thinBackendHost) {
+    initThinBackend({ host: thinBackendHost });
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [colorPalette, setColorPalette] = useState(
         new ColorPaletteGenerator().setColors(),
     );
-    const [theme, setTheme] = useState<any>();
+
+    const theme = useMemo(
+        () =>
+            extendTheme({
+                styles: {
+                    global: (props: StyleFunctionProps) => ({
+                        body: {
+                            bg: mode('white', 'blackAlpha.700')(props),
+                            lineHeight: 'base',
+                        },
+                    }),
+                },
+                brand: {
+                    900: colorPalette.baseColor,
+                    800: colorPalette.complimentaryColor1,
+                    700: colorPalette.complimentaryColor2,
+                },
+            }),
+        [colorPalette],
+    );
 
     useEffect(() => {
-        if (process.env.node_env === 'development') {
+        if (process.env.NODE_ENV === 'development') {
             console.log(
                 '%c BaseColor ',
                 `background: ${colorPalette.baseColor}; color: #fff`,
@@ -33,26 +55,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                 `background: ${colorPalette.complimentaryColor2}; color: #fff`,
             );
         }
-        setTheme(
-            extendTheme({
-                styles: {
-                    global: (props: StyleFunctionProps) => ({
-                        body: {
-                            // fontFamily: 'body',
-                            // color: mode('gray.800', 'whiteAlpha.900')(props),
-                            bg: mode('white', 'blackAlpha.700')(props),
-                            lineHeight: 'base',
-                        },
-                    }),
-                },
-                brand: {
-                    900: colorPalette.baseColor,
-                    800: colorPalette.complimentaryColor1,
-                    700: colorPalette.complimentaryColor2,
-                },
-            }),
-        );
-        // TODO: ^ This might not be necessary.
     }, [colorPalette]);
 
     return (
