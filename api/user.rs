@@ -1,26 +1,27 @@
-#![allow(dead_code)]
+use serde_json::{json, Value};
+use vercel_runtime::{run, service_fn, Error, Request};
 
-use http::StatusCode;
-use vercel_lambda::{lambda, error::VercelError, IntoResponse, Request, Response};
-use std::error::Error;
-
-fn handler(_: Request) -> Result<impl IntoResponse, VercelError> {
-    let response = Response::builder()
-        .status(StatusCode::OK)
-        .header("Content-Type", "application/json")
-        .body(api_overview())
-        .expect("Internal Server Error");
-
-    Ok(response)
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    let service = service_fn(handler);
+    run(service).await
 }
 
-// Start the runtime with the handler
-fn main() -> Result<(), Box<dyn Error>> {
-    Ok(lambda!(handler))
+async fn handler(_req: Request) -> Result<Value, Error> {
+    Ok(api_overview())
 }
 
-fn api_overview() -> &'static str {
-    r#"{"service":"arthur-kovacs-is","runtime":"vercel-rust","status":"ok","notes":["Personal site with activity pages and markdown posts.","URL shortener is currently backed by Thin Backend on the frontend.","Rust API is set up as an experimental backend entrypoint and health endpoint."]}"#
+fn api_overview() -> Value {
+    json!({
+        "service": "arthur-kovacs-is",
+        "runtime": "vercel-rust",
+        "status": "ok",
+        "notes": [
+            "Personal site with activity pages and markdown posts.",
+            "URL shortener is currently backed by Thin Backend on the frontend.",
+            "Rust API now uses Vercel's official Rust runtime."
+        ]
+    })
 }
 
 #[cfg(test)]
@@ -31,7 +32,13 @@ mod tests {
     fn overview_mentions_shortener_and_runtime() {
         let payload = api_overview();
 
-        assert!(payload.contains("\"runtime\":\"vercel-rust\""));
-        assert!(payload.contains("URL shortener"));
+        assert_eq!(payload["runtime"], "vercel-rust");
+        assert!(
+            payload["notes"]
+                .as_array()
+                .expect("notes should be an array")
+                .iter()
+                .any(|note| note.as_str().unwrap_or_default().contains("URL shortener"))
+        );
     }
 }
