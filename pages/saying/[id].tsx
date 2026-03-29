@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { query } from 'thin-backend';
 import { Skeleton } from '@chakra-ui/react';
+import { thinBackendHost } from '../../lib/thin-backend';
 
 const RedirectToUrl: NextPage = () => {
     const router = useRouter();
@@ -13,8 +14,16 @@ const RedirectToUrl: NextPage = () => {
     const shortURL =
         typeof router.query.id === 'string' ? router.query.id : '';
     const isMissingId = router.isReady && !shortURL.length;
+    const backendConfigured = Boolean(thinBackendHost);
+    const backendErrorMessage = backendConfigured
+        ? ''
+        : 'The short-link backend is not configured for this deployment.';
 
     useEffect(() => {
+        if (!backendConfigured) {
+            return;
+        }
+
         if (!router.isReady || !shortURL.length) {
             return;
         }
@@ -36,7 +45,7 @@ const RedirectToUrl: NextPage = () => {
                     'The short link lookup failed. Please try again in a moment.',
                 );
             });
-    }, [router.isReady, shortURL]);
+    }, [backendConfigured, router.isReady, shortURL]);
 
     return (
         <Layout home={false}>
@@ -63,7 +72,9 @@ const RedirectToUrl: NextPage = () => {
                     </>
                 )}
                 {isMissingId && <strong>This short link is missing its id.</strong>}
-                {errorMessage && <strong>{errorMessage}</strong>}
+                {(backendErrorMessage || errorMessage) && (
+                    <strong>{backendErrorMessage || errorMessage}</strong>
+                )}
             </div>
         </Layout>
     );

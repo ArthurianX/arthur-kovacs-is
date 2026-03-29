@@ -4,7 +4,7 @@ import Layout from './layout';
 import Head from 'next/head';
 import Date from './date';
 import { useColorMode } from '@chakra-ui/react';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 import utilStyles from '../styles/utils.module.css';
@@ -21,16 +21,21 @@ const PostPage: NextPage<Article> = ({ title, date, contentHtml }) => {
         document.querySelectorAll('pre code').forEach((el: any) => {
             hljs.highlightElement(el);
         });
-    }, []);
+    }, [contentHtml]);
 
-    useLayoutEffect(() => {
-        document
-            .querySelectorAll("code[class*='language-stackblitz']")
-            .forEach((entry) => {
-                entry.setAttribute('style', 'display: none');
-                setBlitzes([...blitzes, entry]);
-            });
-    }, []);
+    useEffect(() => {
+        const stackBlitzEntries = Array.from(
+            document.querySelectorAll("code[class*='language-stackblitz']"),
+        );
+
+        stackBlitzEntries.forEach((entry) => {
+            entry.setAttribute('style', 'display: none');
+        });
+
+        startTransition(() => {
+            setBlitzes(stackBlitzEntries);
+        });
+    }, [contentHtml]);
 
     return (
         <Layout home={false}>

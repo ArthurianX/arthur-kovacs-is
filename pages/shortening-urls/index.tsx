@@ -14,6 +14,7 @@ import { Button, useColorMode } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { query, createRecord } from 'thin-backend';
+import { thinBackendHost } from '../../lib/thin-backend';
 
 const ShorteningUrls: NextPage = () => {
     useColorMode();
@@ -23,6 +24,7 @@ const ShorteningUrls: NextPage = () => {
     const [copyString, setCopyString] = useState<string>('Or copy the link');
     const [shortenedURI, setShortenedURI] = useState('');
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const backendConfigured = Boolean(thinBackendHost);
 
     const isValidUrl = (urlString: string) => {
         try {
@@ -69,6 +71,11 @@ const ShorteningUrls: NextPage = () => {
     };
 
     const shortenUrl = async () => {
+        if (!backendConfigured) {
+            setError(true);
+            return;
+        }
+
         setSaving(true);
         const shortenedUrl = await shortenedUrlCall(realURI);
 
@@ -91,6 +98,7 @@ const ShorteningUrls: NextPage = () => {
                         ref={inputRef}
                         type="text"
                         placeholder={'Paste URL to shorten'}
+                        disabled={!backendConfigured}
                         onChange={(e) => {
                             setShortenedURI('');
                             setCopyString('Or copy the link');
@@ -113,7 +121,7 @@ const ShorteningUrls: NextPage = () => {
                             variant="link"
                             size="lg"
                             isLoading={saving}
-                            disabled={!realURI!.length}
+                            disabled={!backendConfigured || !realURI!.length}
                             onClick={shortenUrl}
                         >
                             Shorten
@@ -162,7 +170,9 @@ const ShorteningUrls: NextPage = () => {
                         size="lg"
                         disabled={true}
                     >
-                        Paste a valid url and click the Shorten URL button
+                        {backendConfigured
+                            ? 'Paste a valid url and click the Shorten URL button'
+                            : 'Set NEXT_PUBLIC_BACKEND_URL to enable URL shortening on Vercel'}
                     </Button>
                 )}
             </section>

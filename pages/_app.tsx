@@ -1,19 +1,15 @@
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
 import AnimatedCanvas from '../components/canvas-bg';
-import { ChakraProvider } from '@chakra-ui/provider';
-import { extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import ColorPaletteGenerator from '../utils/generate-color-scheme';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
-import { initThinBackend } from 'thin-backend';
 import { ThinBackend } from 'thin-backend-react';
+import { initializeThinBackend } from '../lib/thin-backend';
 
-const thinBackendHost = process.env.NEXT_PUBLIC_BACKEND_URL;
-if (thinBackendHost) {
-    initThinBackend({ host: thinBackendHost });
-}
+initializeThinBackend();
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [colorPalette, setColorPalette] = useState(

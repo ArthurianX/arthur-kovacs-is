@@ -9,11 +9,11 @@ export default class Document extends NextDocument {
             <Html lang="en">
                 <Head />
                 <Script
-                    src="https://unpkg.com/prettier@2.7.1/standalone.js"
+                    src="https://unpkg.com/prettier@2.8.8/standalone.js"
                     strategy="beforeInteractive"
                 />
                 <Script
-                    src="https://unpkg.com/prettier@2.7.1/parser-typescript.js"
+                    src="https://unpkg.com/prettier@2.8.8/parser-typescript.js"
                     strategy="beforeInteractive"
                 />
                 <body>
